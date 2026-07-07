@@ -23,9 +23,34 @@ await Bun.write("captions.srt", toSRT(cues));
 await Bun.write("captions.vtt", toVTT(cues));
 ```
 
+## Karaoke mode (two-tone, word-level)
+
+Per `docs/creative/nab-style-guide.md`: word-by-word or short-phrase
+captions with alternating two-tone color, tightly synced to speech — a
+different rhythm from the sentence-chunked style above (lyric-video-like,
+not standard-subtitle-like).
+
+```ts
+import { generateKaraokeCaptions, toASS } from "./src/index.js";
+
+const cues = generateKaraokeCaptions(transcript, timeline, { wordsPerCue: 2 });
+await Bun.write("captions.ass", toASS(cues, { colors: ["#39FF14", "#FFFFFF"] }));
+```
+
+`generateKaraokeCaptions` prefers per-word timestamps
+(`TranscriptSegment.words`, when the transcription provider returned them —
+OpenAI Whisper does with `timestamp_granularities: ["word"]`, already
+requested by `OpenAIWhisperProvider`) for accurate sync, falling back to
+proportional character-based timing otherwise. `CaptionCue.colorIndex`
+alternates `0`/`1` per word group across the whole transcript (not reset
+per segment). `toASS` emits an `.ass` (Advanced SubStation Alpha) file —
+plain SRT/VTT can't express per-cue color or a heavy stroke; ffmpeg's
+`subtitles` filter (used by `rendering/`) accepts `.ass` directly, so no
+changes were needed there.
+
 ## Not yet implemented
 
 - Speaker-name prefixes (`[Speaker 1]:`) when diarization is available.
-- Styling metadata (position, color) for burned-in caption presets — currently
-  plain SRT/VTT text only; `rendering/` owns the burn-in visual style.
 - Multi-language caption tracks from a single transcript.
+- Karaoke mode doesn't currently vary word-group size by emphasis (e.g. a
+  single punchy word held longer) — it's a fixed `wordsPerCue` window.

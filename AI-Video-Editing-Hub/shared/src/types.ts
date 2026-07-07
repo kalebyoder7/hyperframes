@@ -50,6 +50,13 @@ export interface HighlightSegment {
   score: number;
   reasons: string[];
   sourceSegmentIds: string[];
+  // Suggested visual treatment for this beat (e.g. "AI-generated cinematic
+  // reenactment", "real archival photo", "reaction/meme insert") — informed
+  // by docs/creative/nab-style-guide.md. Suggestion only: nothing in the hub
+  // sources, generates, or auto-inserts the suggested asset yet. Currently
+  // only populated by AnthropicStoryAnalyzer; absent from the offline
+  // clip-selection heuristic.
+  visualSuggestion?: string;
 }
 
 export interface TimelineClip {
@@ -71,6 +78,10 @@ export interface CaptionCue {
   start: number;
   end: number;
   text: string;
+  // Alternating style bucket for karaoke-style two-tone captions (see
+  // modules/captioning's generateKaraokeCaptions). Absent for plain
+  // phrase-wrapped captions.
+  colorIndex?: 0 | 1;
 }
 
 export type Platform =
@@ -98,10 +109,29 @@ export interface RenderJob {
   outputPath: string;
 }
 
+export type CaptionStyle = "phrase" | "karaoke";
+
 export interface PipelineConfig {
   targetDurationSec: number;
   minHighlightScore: number;
   platform: Platform;
   burnCaptions: boolean;
   normalizeAudio: boolean;
+  // "phrase" (default): sentence-chunked SRT/VTT captions, one phrase every
+  // few seconds. "karaoke": word-level two-tone captions per
+  // docs/creative/nab-style-guide.md, burned in via ASS. See
+  // modules/captioning's generateCaptions vs. generateKaraokeCaptions.
+  captionStyle: CaptionStyle;
+  // [primary, secondary] hex colors alternated per karaoke caption word/phrase.
+  // Ignored when captionStyle is "phrase".
+  captionColors: [string, string];
+  // Optional overrides passed through to clip-selection's detectHighlights.
+  // Absent by default so clip-selection's own defaults (3-20s) apply;
+  // a style preset like configs/nab-style.config.json can narrow this
+  // toward shorter, punchier standalone beats. Note: this tunes which
+  // *spoken segments* look like a complete highlight-worthy thought — it is
+  // NOT the same as B-roll/visual cut frequency (see docs/creative/nab-style-guide.md),
+  // which the hub doesn't automate.
+  idealClipMinSec?: number;
+  idealClipMaxSec?: number;
 }

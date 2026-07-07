@@ -6,6 +6,9 @@ import type {
 } from "../../../shared/src/types.js";
 import { mapSourceTimeToTimeline } from "../../timeline/src/index.js";
 
+export { generateKaraokeCaptions, toASS, hexToAssColor } from "./karaoke.js";
+export type { KaraokeCaptionOptions, ASSOptions } from "./karaoke.js";
+
 export interface CaptionOptions {
   maxCharsPerCue?: number;
 }

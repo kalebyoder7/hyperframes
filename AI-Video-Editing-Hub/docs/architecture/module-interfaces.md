@@ -72,13 +72,23 @@ mapSourceTimeToTimeline(timeline: Timeline, sourceTimeSec: number): number | nul
 generateCaptions(transcript: Transcript, timeline?: Timeline, options?): CaptionCue[]
 toSRT(cues: CaptionCue[]): string
 toVTT(cues: CaptionCue[]): string
+
+// word-level, two-tone "karaoke" style — see docs/creative/nab-style-guide.md
+generateKaraokeCaptions(transcript: Transcript, timeline?: Timeline, options?): CaptionCue[]
+toASS(cues: CaptionCue[], options?: { colors?: [string, string]; videoWidth?; videoHeight? }): string
+hexToAssColor(hex: string): string
 ```
 
 ## `modules/rendering/`
 
 ```ts
 getPreset(platform: Platform): ExportPreset
-renderTimeline(job: RenderJob, options?: { exec?: ExecFn; burnCaptions?: boolean }): Promise<string>
+renderTimeline(job: RenderJob, options?: {
+  exec?: ExecFn;
+  burnCaptions?: boolean;
+  captionFormat?: "srt" | "ass"; // "ass" for karaoke-style captions
+  assColors?: [string, string];
+}): Promise<string>
 buildFfmpegArgs(job: RenderJob, options?): string[]  // pure, for testing
 ```
 

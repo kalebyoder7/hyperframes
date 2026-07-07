@@ -1,0 +1,11 @@
+{
+  "targetDurationSec": 65,
+  "minHighlightScore": 0.3,
+  "platform": "tiktok",
+  "burnCaptions": true,
+  "normalizeAudio": true,
+  "captionStyle": "karaoke",
+  "captionColors": ["#39FF14", "#FFFFFF"],
+  "idealClipMinSec": 2,
+  "idealClipMaxSec": 12
+}

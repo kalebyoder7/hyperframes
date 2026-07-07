@@ -8,6 +8,8 @@ const DEFAULTS: PipelineConfig = {
   platform: "youtube-shorts",
   burnCaptions: true,
   normalizeAudio: true,
+  captionStyle: "phrase",
+  captionColors: ["#39FF14", "#FFFFFF"],
 };
 
 export function loadConfig(

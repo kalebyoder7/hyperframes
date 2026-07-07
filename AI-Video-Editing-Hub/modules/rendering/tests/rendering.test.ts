@@ -151,6 +151,23 @@ describe("renderTimeline", () => {
     expect(filterArg).toContain("subtitles=");
   });
 
+  test("burns captions via an .ass file with colorIndex when captionFormat is 'ass'", async () => {
+    let capturedArgs: string[] = [];
+    const fakeExec = async (_command: string, args: string[]) => {
+      capturedArgs = args;
+      return { stdout: "", stderr: "" };
+    };
+
+    await renderTimeline(
+      job({ captions: [{ index: 1, start: 0, end: 1, text: "hi", colorIndex: 1 }] }),
+      { exec: fakeExec, captionFormat: "ass", assColors: ["#39FF14", "#FFFFFF"] },
+    );
+
+    const filterArg = capturedArgs[capturedArgs.indexOf("-filter_complex") + 1];
+    expect(filterArg).toContain("subtitles=");
+    expect(filterArg).toContain(".ass");
+  });
+
   test("wraps exec failures in RenderError", async () => {
     const failingExec = async () => {
       throw new Error("ffmpeg exploded");

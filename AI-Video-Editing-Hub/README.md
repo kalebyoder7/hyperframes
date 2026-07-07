@@ -28,22 +28,27 @@ cd AI-Video-Editing-Hub
 bun install
 bun test                 # full unit test suite — no ffmpeg/API keys required
 bun scripts/pipeline.ts --input /path/to/source.mp4 --platform tiktok
+
+# or apply a named creative style preset instead of individual flags:
+bun scripts/pipeline.ts --input /path/to/source.mp4 --config configs/nab-style.config.json
 ```
 
 Requirements for an actual pipeline run (not for `bun test`): `ffmpeg`/
 `ffprobe` on `PATH`, and `OPENAI_API_KEY` (or a local whisper.cpp setup) for
 transcription. See `docs/architecture/pipeline.md` for the full flag
-reference and requirements matrix.
+reference and requirements matrix, and `docs/creative/nab-style-guide.md`
+for what the `nab-style` config preset encodes and why.
 
 ## Layout
 
 ```
 docs/
   architecture/     — system design, module interfaces, how to run the pipeline
+  creative/         — style guides derived from reference material (e.g. nab-style-guide.md)
   roadmap/          — what's real vs. stub, next steps
 modules/            — one directory per capability, each with src/ + tests/ + README.md
 shared/             — cross-module types, logger, error classes, exec wrapper, config loader
-configs/            — default pipeline config, platform export presets (reference copy)
+configs/            — pipeline configs: default.config.json, nab-style.config.json, platform export presets (reference copy)
 prompts/            — LLM prompt templates used by story-analysis
 scripts/
   pipeline.ts       — the end-to-end orchestrator (reference CLI entry point)

@@ -39,6 +39,18 @@ const analyzer = new AnthropicStoryAnalyzer();
 const { summary, narrativeArc, highlights } = await analyzer.analyze(transcript);
 ```
 
+Each `HighlightSegment` may also carry a `visualSuggestion` string — per
+`docs/creative/nab-style-guide.md`'s house rules (baked into
+`prompts/story-analysis.prompt.md`), the model suggests whether a beat calls
+for an AI-generated cinematic reenactment, a real archival/press photo, an
+AI-generated creature/character render, or a comedic reaction/meme insert —
+matching asset type to the claim being made rather than defaulting to one
+look. **This is advisory metadata only**: nothing in the hub sources,
+generates, or auto-inserts the suggested asset — it's written to
+`story-analysis.json` by `scripts/pipeline.ts` for a human editor (or a
+future automation) to act on. `clip-selection/`'s offline heuristic never
+populates this field.
+
 ## Not yet implemented
 
 - Real speaker diarization provider.

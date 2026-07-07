@@ -3,5 +3,7 @@
   "minHighlightScore": 0.35,
   "platform": "youtube-shorts",
   "burnCaptions": true,
-  "normalizeAudio": true
+  "normalizeAudio": true,
+  "captionStyle": "phrase",
+  "captionColors": ["#39FF14", "#FFFFFF"]
 }

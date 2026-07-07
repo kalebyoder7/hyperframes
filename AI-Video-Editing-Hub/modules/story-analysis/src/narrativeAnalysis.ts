@@ -23,6 +23,7 @@ interface ClaudeHighlightJson {
   end: number;
   score: number;
   reason: string;
+  visualSuggestion?: string;
 }
 
 interface ClaudeStoryAnalysisJson {
@@ -140,6 +141,7 @@ export function parseAnalysisResponse(text: string): StoryAnalysisResult {
     score: h.score,
     reasons: [h.reason],
     sourceSegmentIds: [],
+    ...(h.visualSuggestion ? { visualSuggestion: h.visualSuggestion } : {}),
   }));
 
   return {

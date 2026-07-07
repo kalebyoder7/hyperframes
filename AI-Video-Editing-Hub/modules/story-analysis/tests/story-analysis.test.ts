@@ -79,6 +79,34 @@ describe("parseAnalysisResponse", () => {
   test("throws StoryAnalysisError when no JSON is present", () => {
     expect(() => parseAnalysisResponse("no json here")).toThrow(StoryAnalysisError);
   });
+
+  test("carries visualSuggestion through when present", () => {
+    const text = JSON.stringify({
+      summary: "s",
+      narrativeArc: "a",
+      highlights: [
+        {
+          start: 1,
+          end: 5,
+          score: 0.9,
+          reason: "hook",
+          visualSuggestion: "AI-generated cinematic reenactment",
+        },
+      ],
+    });
+    const result = parseAnalysisResponse(text);
+    expect(result.highlights[0]?.visualSuggestion).toBe("AI-generated cinematic reenactment");
+  });
+
+  test("omits visualSuggestion field entirely when the model left it empty", () => {
+    const text = JSON.stringify({
+      summary: "s",
+      narrativeArc: "a",
+      highlights: [{ start: 1, end: 5, score: 0.9, reason: "hook", visualSuggestion: "" }],
+    });
+    const result = parseAnalysisResponse(text);
+    expect(result.highlights[0]?.visualSuggestion).toBeUndefined();
+  });
 });
 
 describe("AnthropicStoryAnalyzer", () => {
