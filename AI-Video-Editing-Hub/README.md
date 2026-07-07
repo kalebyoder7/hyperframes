@@ -39,6 +39,19 @@ transcription. See `docs/architecture/pipeline.md` for the full flag
 reference and requirements matrix, and `docs/creative/nab-style-guide.md`
 for what the `nab-style` config preset encodes and why.
 
+### Via Claude Code
+
+`/render-social-clip <input-video-path> [platform]` — defined in
+[`skills/render-social-clip/SKILL.md`](../skills/render-social-clip/SKILL.md)
+at the repo root (installable via `npx skills add heygen-com/hyperframes
+--skill render-social-clip`, same mechanism as the HyperFrames skills, but
+deliberately kept out of that catalog since it's a different tool). Runs the
+pipeline with the `nab-style` preset and then walks through the style
+guide's non-automated rules (B-roll/visual-suggestion placement, comedic
+rhythm-breakers, color-grade beats) as a shot list — use this instead of the
+raw `bun scripts/pipeline.ts` invocation when you want the full creative SOP
+applied, not just the automatable defaults.
+
 ## Layout
 
 ```
