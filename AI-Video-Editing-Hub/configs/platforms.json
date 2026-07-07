@@ -1,0 +1,8 @@
+{
+  "_comment": "Human-readable mirror of modules/rendering/src/presets.ts EXPORT_PRESETS — that file is the source of truth read at runtime; this file documents the same values for quick reference without opening source.",
+  "tiktok": { "width": 1080, "height": 1920, "fps": 30, "maxDurationSec": 180 },
+  "youtube-shorts": { "width": 1080, "height": 1920, "fps": 30, "maxDurationSec": 60 },
+  "instagram-reels": { "width": 1080, "height": 1920, "fps": 30, "maxDurationSec": 90 },
+  "youtube-landscape": { "width": 1920, "height": 1080, "fps": 30, "maxDurationSec": 43200 },
+  "linkedin": { "width": 1080, "height": 1080, "fps": 30, "maxDurationSec": 600 }
+}

@@ -1,0 +1,7 @@
+{
+  "targetDurationSec": 60,
+  "minHighlightScore": 0.35,
+  "platform": "youtube-shorts",
+  "burnCaptions": true,
+  "normalizeAudio": true
+}

@@ -1,0 +1,10 @@
+node_modules/
+exports/*
+!exports/.gitkeep
+logs/*
+!logs/.gitkeep
+assets/*
+!assets/.gitkeep
+*.log
+.env
+.env.local
